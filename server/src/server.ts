@@ -2,6 +2,8 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const app = express();
+app.use(express.json());
+
 const prisma = new PrismaClient();
 
 app.get('/games', async (req, res) => {
@@ -18,7 +20,22 @@ app.get('/games', async (req, res) => {
   return res.json(games);;
 });
 
-app.post('/ads', (req, res) => {
+app.post('/games/:id/ads', async (req, res) => {
+  const gameId = req.params.id;
+  const body = req.body;
+
+  const ad = await prisma.ad.create({
+    data: {
+      gameId,
+      name: body.name,
+      yearsPlaying: body.yearsPlaying,
+      discord: body.discord,
+      weekDays: body.weekDays
+  hourStart       
+  hourEnd        
+  useVoiceChannel
+    }
+  })
   return res.status(201).json([]);
 });
 
@@ -29,7 +46,7 @@ app.get('/games/:id/ads', async (req, res) => {
     select: {
       id: true,
       name: true,
-      weeksDays: true,
+      weekDays: true,
       yearsPlaying: true,
       useVoiceChannel: true, 
       hourStart: true,
@@ -46,7 +63,7 @@ app.get('/games/:id/ads', async (req, res) => {
   return res.json(ads.map(ad => {
     return {
       ...ad,
-      weekDays: ad.weeksDays.split(',')
+      weekDays: ad.weekDays.split(',')
     }
   }));
 });
