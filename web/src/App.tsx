@@ -1,10 +1,29 @@
+import { useEffect, useState } from 'react';
 import './styles/main.css';
 import logo from './assets/logo.svg';
-import { MagnifyingGlassPlus } from 'phosphor-react'
 import { GameBanner } from './components/GameBanner';
 import { CreateAdBanner } from './components/CreateAdBanner';
 
+interface Game {
+  id: string;
+  title: string;
+  banner: string;
+  _count: {
+    ads: number
+  }
+}
+
 function App() {
+  const [games, setGames] = useState<Game[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/games')
+    .then(res => res.json())
+    .then(data => {
+      setGames(data)
+    })
+  }, [])
+
   return (
     <div className='max-w-[1344px] mx-auto flex flex-col items-center my-20'>
       <img src={logo} />
@@ -13,12 +32,15 @@ function App() {
       </h1>
 
       <div className='grid grid-cols-6 gap-6 mt-16'>
-        <GameBanner banner='/game-1.png' title='League of Legends' adsCount={5} />
-        <GameBanner banner='/game-2.png' title='Dota 2' adsCount={5} />
-        <GameBanner banner='/game-3.png' title='Counter Strike' adsCount={5} />
-        <GameBanner banner='/game-4.png' title='Apex Legends' adsCount={5} />
-        <GameBanner banner='/game-5.png' title='Fortnite' adsCount={5} />
-        <GameBanner banner='/game-6.png' title='World of Warcraft' adsCount={5} />       
+        {games.map(game => {
+          return (
+            <GameBanner 
+              title={game.title}
+              banner={game.banner}
+              adsCount={game._count.ads}
+            />
+          )
+        })}          
       </div>
 
       <CreateAdBanner />
