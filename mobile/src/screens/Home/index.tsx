@@ -13,8 +13,8 @@ export function Home() {
 
   const navigation = useNavigation();
 
-  function handleOpenGame() {
-    navigation.navigate('game');
+  function handleOpenGame({ id, title, banner }: GameCardProps) {
+    navigation.navigate('game', { id, title, banner });
   }
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function Home() {
           renderItem={({ item }) => (
             <GameCard
               data={item}
-              onPress={handleOpenGame}
+              onPress={() => handleOpenGame(item)}
             />
           )}
           horizontal
