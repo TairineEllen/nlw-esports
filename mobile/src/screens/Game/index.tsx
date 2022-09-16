@@ -8,6 +8,7 @@ import { Entypo } from '@expo/vector-icons';
 import { THEME } from '../../theme';
 import logo from '../../assets/logo-nlw-esports.png';
 import { Heading } from '../../components/Heading';
+import { DuoCard } from '../../components/DuoCard';
 
 export function Game() {
   const route = useRoute();
@@ -32,6 +33,8 @@ export function Game() {
         <Image source={{ uri: game.banner }} style={styles.cover} resizeMode='cover' />
 
         <Heading title={game.title} subtitle='Conecte-se e comece a jogar!'/>
+
+        <DuoCard />
 
       </SafeAreaView>
     </Background>
