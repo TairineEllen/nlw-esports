@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View, Image, FlatList, Alert } from 'react-native';
+import { Image, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 import logo from '../../assets/logo-nlw-esports.png';
 import { Heading } from '../../components/Heading';
@@ -13,7 +14,7 @@ export function Home() {
     .then(data => setGames(data))
     }, []) 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       <Image source={logo} style={styles.logo}/>
 
@@ -29,8 +30,6 @@ export function Home() {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.contentList}/>
 
-      
-
-    </View>
+    </SafeAreaView>
   );
 }
