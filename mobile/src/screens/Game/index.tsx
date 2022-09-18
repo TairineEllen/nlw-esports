@@ -14,13 +14,19 @@ import { DuoMatch } from '../../components/DuoMatch'
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
-  const [discordDuoSelected, setDiscordDuoSelected] = useState('Tairine');
+  const [discordDuoSelected, setDiscordDuoSelected] = useState('');
   const route = useRoute();
   const game = route.params as GameParams;
   const navigation = useNavigation();
   
   function handleGoBack() {
     navigation.goBack();
+  }
+
+  async function getDiscordUser(adsId: string) {
+    fetch(`https://2991-2804-14d-5480-8b4d-fc7a-9110-9bd8-7ced.sa.ngrok.io/ads/${adsId}/discord`)
+    .then(res => res.json())
+    .then(data => setDiscordDuoSelected(data.discord))
   }
 
   useEffect(() => {
@@ -48,7 +54,7 @@ export function Game() {
         data={duos}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-        <DuoCard data={item} onConnect={() => {}}/>
+        <DuoCard data={item} onConnect={() => getDiscordUser(item.id)}/>
         )}
         horizontal
         contentContainerStyle={[ duos.length > 0 ? styles.containerList : styles.emptyListContent]}
@@ -57,7 +63,7 @@ export function Game() {
           <Text style={styles.emptyListText}>Não há anúncios publicados ainda</Text>
         )}
       />
-      <DuoMatch visible={discordDuoSelected.length > 0} discord='Tairine' onClose={() => setDiscordDuoSelected('')} />
+      <DuoMatch visible={discordDuoSelected.length > 0} discord={discordDuoSelected} onClose={() => setDiscordDuoSelected('')} />
       </SafeAreaView>
     </Background>
   );
