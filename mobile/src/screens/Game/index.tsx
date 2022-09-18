@@ -10,9 +10,11 @@ import logo from '../../assets/logo-nlw-esports.png';
 import { Heading } from '../../components/Heading';
 import { DuoCard, DuoCardProps } from '../../components/DuoCard';
 import { useEffect, useState } from 'react';
+import { DuoMatch } from '../../components/DuoMatch'
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
+  const [discordDuoSelected, setDiscordDuoSelected] = useState('Tairine');
   const route = useRoute();
   const game = route.params as GameParams;
   const navigation = useNavigation();
@@ -55,6 +57,7 @@ export function Game() {
           <Text style={styles.emptyListText}>Não há anúncios publicados ainda</Text>
         )}
       />
+      <DuoMatch visible={discordDuoSelected.length > 0} discord='Tairine' onClose={() => setDiscordDuoSelected('')} />
       </SafeAreaView>
     </Background>
   );
